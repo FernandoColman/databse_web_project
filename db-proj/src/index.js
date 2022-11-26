@@ -11,7 +11,6 @@ import History from "./routes/History";
 import Transfer from "./routes/Transfer.js"
 
 
-import reportWebVitals from './reportWebVitals';
 
 
 export default function App() {
@@ -34,4 +33,3 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 
 
-reportWebVitals();
