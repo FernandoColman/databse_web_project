@@ -9,6 +9,7 @@ import UserInfo from './routes/UserInfo'
 import Transactions from "./routes/Transactions";
 import History from "./routes/History";
 import Transfer from "./routes/Transfer.js"
+import Login from "./routes/Login";
 
 
 
@@ -23,6 +24,7 @@ export default function App() {
                     <Route path="transactions" element={<Transactions />} />
                     <Route path="history" element={<History />} />
                     <Route path="transfer" element={<Transfer />} />
+                    <Route path="login" element={<Login />} />
                 </Route>
             </Routes>
         </BrowserRouter>
