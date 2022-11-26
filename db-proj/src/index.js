@@ -18,16 +18,18 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Header />}>
-                    <Route index element={<Home />} />
+                <Route path="/" element={<Login />} />
+                <Route path="start" element={<Header />}>
+                    <Route path={"home"} element={<Home />} />
                     <Route path="userInfo" element={<UserInfo />} />
                     <Route path="transactions" element={<Transactions />} />
                     <Route path="history" element={<History />} />
                     <Route path="transfer" element={<Transfer />} />
-                    <Route path="login" element={<Login />} />
                 </Route>
             </Routes>
+
         </BrowserRouter>
+
     );
 }
 
