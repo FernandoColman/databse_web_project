@@ -30,7 +30,10 @@ function Login() {
           alert("Please try again or create a new account!")
       }
       else if (res.message === 'Success'){
-          navigate("home")
+        localStorage.setItem('logged', 't')
+        localStorage.setItem('tid', res.tid)
+        localStorage.setItem('lvl', res.lvl)
+        navigate("home")
       }
     }
 

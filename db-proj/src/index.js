@@ -10,26 +10,28 @@ import Transactions from "./routes/Transactions";
 import History from "./routes/History";
 import Transfer from "./routes/Transfer.js"
 import Login from "./routes/Login";
+import Logout from "./routes/Logout";
 
 
 
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="start" element={<Header />}>
-                    <Route path={"home"} element={<Home />} />
-                    <Route path="userInfo" element={<UserInfo />} />
-                    <Route path="transactions" element={<Transactions />} />
-                    <Route path="history" element={<History />} />
-                    <Route path="transfer" element={<Transfer />} />
-                </Route>
-            </Routes>
+        <div>
+            <BrowserRouter>
+                <Header />
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/userinfo" element={<UserInfo />} />
+                        <Route path="/transactions" element={<Transactions />} />
+                        <Route path="/history" element={<History />} />
+                        <Route path="/transfer" element={<Transfer />} />
+                        <Route path="/logout" element={<Logout />} />
+                    </Routes>
 
-        </BrowserRouter>
-
+            </BrowserRouter>
+        </div>
     );
 }
 

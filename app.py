@@ -23,17 +23,43 @@ def login():
     password = input['inputpassword']    
     #print(username)
     cursor = mysql.connect.cursor()
-    cursor.execute('SELECT t.username, t.password FROM Trader t WHERE t.username=%s AND t.password=%s', (username, password, ))
+    cursor.execute('SELECT t.Client_ID, t.Level FROM Trader t WHERE t.username=%s AND t.password=%s', (username, password, ))
     account = cursor.fetchone()
     cursor.close()
     if account:
         #print("success")
-        res = {'message': "Success"}
+        res = {'message': "Success", 'tid': account[0], 'lvl': account[1]}
     else:    
         #print("fail")
         res = {'message': "Fail"}
     #print(res)
     return json.dumps(res)
 
+@app.route('/home', methods=['POST'])
+def home():
+    input = request.get_json()
+    cid = input['cid']
+    print(cid)
+
+    #CONNECT TO DB WHEN READY
+
+    res = [{"id": 1, "NFT": "NFT 1", "Total_Volume": "200 Eth", "Floor_Price": "0.240 Eth"},
+            {"id": 2, "NFT": "NFT 2", "Total_Volume": "300 Eth", "Floor_Price": "0.399 Eth"}]
+    return json.dumps(res)
+
+@app.route('/userinfo', methods=['POST'])
+def userinfo():
+    input = request.get_json()
+    cid = input['cid']
+    print(cid)
+
+    cursor = mysql.connect.cursor()
+    cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr FROM Contact c WHERE c.Client_ID=%s', (cid, ))
+    account = cursor.fetchone()
+
+    res = {'fname': account[0], 'lname': account[1], 'hnum': account[2], 'cnum': account[3], 'eaddr': account[4]}
+    return json.dumps(res)
+
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
+
