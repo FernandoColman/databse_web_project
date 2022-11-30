@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import '../routes/css/UserInfo.css'
 
 function UserInfo(){
 
@@ -10,8 +11,9 @@ function UserInfo(){
 
     useEffect(() => {
         if(localStorage.getItem("logged") === null){
+
             alert("You are not logged in!")
-            navigate("/")
+            navigate("/userinfo")
         }
         if(localStorage.getItem("logged")){
             fetch('/userinfo', {
@@ -26,37 +28,56 @@ function UserInfo(){
             .catch(error => console.log('error', error))
         }
     }, [reload]);
-    // // CONTACT INFO
-    // const fName = 'Fernando'
-    // const lName = 'Colman'
-    // const homePhone = '888-888-8888'
-    // const cellPhone = '777-777-7777'
-    // const email = 'fcolman@email.com'
-    // const address = '123 Main Street, Houston, TX, 77494'
 
-    // // TRADER INFO
-    // const clientID = '123456'
-    // const ethAddress = 'abcdef'
-    // const goldLevel = false
-    var goldLevel = false;
+
+    let goldLevel = false;
     if(localStorage.getItem("lvl") === 1){
         goldLevel = true;
     }
 
+    let clientID = localStorage.getItem("client_id");
+    let ethAddr = localStorage.getItem("eth_addr");
+
     return (
         <div className='main_div'>
             <h1>Hey {contacts.fname}!</h1>
-            {/* <h3>Ethereum Address: {ethAddress}</h3> */}
-            <h3>Trading Level: {goldLevel ? "Gold" : "Silver"}</h3>
+            <h3><u>Client ID:</u> {clientID}</h3>
+            <h3><u>ETH Address:</u> {ethAddr}</h3>
+            <h3><u>Trading Level:</u> {goldLevel ? "Gold" : "Silver"}</h3>
 
 
             <div className='contact_info'>
-                <h2>Your Information: </h2>
-                <p>Name: {contacts.fname + " " + contacts.lname}</p>
-                <p>Home Phone: {contacts.hnum}</p>
-                <p>Cell Phone: {contacts.cnum}</p>
-                <p>Email : {contacts.eaddr}</p>
-                {/* <p>Address: {address}</p> */}
+                <fieldset>
+                    <br/>
+                    <legend>Your Information</legend>
+                    <label htmlFor="fname">First Name: </label> <br/>
+                    <input type="text" id="fname" name="fname" value={contacts.fname}/> <br/>
+
+                    <label htmlFor="lname">Last Name: </label> <br/>
+                    <input type="text" id="lname" name="lname" value={contacts.lname}/> <br/>
+
+                    <br/>
+
+                    <label htmlFor="hnum">Home Phone: </label> <br/>
+                    <input type="number" id="hnum" name="hnum" value={contacts.hnum}/> <br/>
+
+                    <label htmlFor="cnum">Cell Number: </label> <br/>
+                    <input type="number" id="cnum" name="cnum" value={contacts.cnum}/> <br/>
+
+                    <br/>
+
+                    <label htmlFor="eaddr">Email Address: </label> <br/>
+                    <input type="email" id="eaddr" name="eaddr" value={contacts.eaddr}/> <br/>
+
+                    <label htmlFor="paddr">Physical Address: </label> <br/>
+                    <input type="text" id="paddr" name="paddr" value={contacts.paddr}/> <br/>
+
+                    <br/>
+
+                    <input class="subbtn" type="submit" value="Submit"/>
+
+                    <br/>
+                </fieldset>
             </div>
 
         </div>
