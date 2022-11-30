@@ -1,0 +1,47 @@
+fieldset {
+    border: 2px solid #E89517;
+    border-radius: 5px;
+    margin: 25px 100px 75px 100px;
+    width: 500px;
+}
+
+label, legend {
+    color: white;
+}
+
+legend {
+    font-size: x-large;
+    margin-left: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+label {
+    padding: 25px 25px 25px 25px;
+}
+
+input {
+    margin-left: 25px;
+    color: black;
+}
+
+.subbtn {
+    margin-bottom: 10px;
+    border: 2px solid #E89517;
+    border-radius: 5px;
+    background-color: #176AE8;
+    color: white;
+    padding: 4px;
+}
+
+h1, h3 {
+    margin-left: 10px;
+    color: white;
+}
+
+h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+

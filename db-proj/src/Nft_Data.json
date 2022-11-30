@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "NFT": "NFT 1",
+        "Total_Volume": "200 Eth",
+        "Floor_Price": "0.240 Eth"
+    },
+    {
+        "id": 2,
+        "NFT": "NFT 2",
+        "Total_Volume": "300 Eth",
+        "Floor_Price": "0.399 Eth"
+    },
+    {
+        "id": 3,
+        "NFT": "NFT 3",
+        "Total_Volume": "250 Eth",
+        "Floor_Price": "0.215 Eth"
+    },
+    {
+        "id": 4,
+        "NFT": "NFT 4",
+        "Total_Volume": "220 Eth",
+        "Floor_Price": "0.299 Eth"
+    },
+    {
+        "id": 5,
+        "NFT": "NFT 5",
+        "Total_Volume": "350 Eth",
+        "Floor_Price": "0.320 Eth"
+    }
+]
