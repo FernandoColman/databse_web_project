@@ -9,6 +9,7 @@ function Header(){
             <div className="topnav">
                 <Link to="/home">Home</Link>
                 <Link to="/userinfo">User Info</Link>
+                <Link to="/wallet">Wallet</Link>
                 <Link to="/transactions">Transactions</Link>
                 <Link to="/history">History</Link>
                 <Link to="/transfer">Transfer</Link>
