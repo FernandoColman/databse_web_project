@@ -13,7 +13,7 @@ function Home(){
     useEffect(() => {
         if(localStorage.getItem("logged") === null){
             alert("You are not logged in!")
-            navigate("/home")
+            navigate("/")
         }
         if(localStorage.getItem("logged")){
             fetch('/home', {
@@ -41,9 +41,9 @@ function Home(){
             <tbody>
                 {nfts.map((NFT_info) =>(
                     <tr>
-                    <td>{NFT_info.NFT}</td>
-                    <td>{NFT_info.Total_Volume}</td>
-                    <td>{NFT_info.Floor_Price}</td>
+                    <td>{NFT_info.Token_ID}</td>
+                    <td>{NFT_info.Name}</td>
+                    <td>{NFT_info.ETH_Price}</td>
                 </tr>
                 ))}    
             </tbody>

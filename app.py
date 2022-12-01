@@ -23,7 +23,7 @@ def login():
     password = input['inputpassword']    
     #print(username)
     cursor = mysql.connect.cursor()
-    cursor.execute('SELECT t.Client_ID, t.Level FROM Trader t WHERE t.username=%s AND t.password=%s', (username, password, ))
+    cursor.execute('SELECT t.Client_ID, t.Level FROM Trader t WHERE t.Username=%s AND t.Password=%s', (username, password, ))
     account = cursor.fetchone()
     cursor.close()
     if account:
@@ -41,10 +41,13 @@ def home():
     cid = input['cid']
     print(cid)
 
-    #CONNECT TO DB WHEN READY
+    cursor = mysql.connect.cursor()
+    cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n LIMIT 20')
+    columns = [col[0] for col in cursor.description]
+    res = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    cursor.close()
+    print(res)
 
-    res = [{"id": 1, "NFT": "NFT 1", "Total_Volume": "200 Eth", "Floor_Price": "0.240 Eth"},
-            {"id": 2, "NFT": "NFT 2", "Total_Volume": "300 Eth", "Floor_Price": "0.399 Eth"}]
     return json.dumps(res)
 
 @app.route('/userinfo', methods=['POST'])

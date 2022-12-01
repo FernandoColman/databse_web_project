@@ -13,7 +13,7 @@ function UserInfo(){
         if(localStorage.getItem("logged") === null){
 
             alert("You are not logged in!")
-            navigate("/userinfo")
+            navigate("/")
         }
         if(localStorage.getItem("logged")){
             fetch('/userinfo', {
