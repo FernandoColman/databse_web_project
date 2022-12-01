@@ -13,7 +13,7 @@ function Home(){
     useEffect(() => {
         if(localStorage.getItem("logged") === null){
             alert("You are not logged in!")
-            navigate("/home")
+            navigate("/")
         }
         if(localStorage.getItem("logged")){
             fetch('/home', {

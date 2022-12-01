@@ -16,7 +16,7 @@ function Login() {
                 contrastText: '#FFFFFF',
             },
             secondary: {
-                main: '#DCA563',
+                main: '#E9967A',
                 contrastText: '#FFFFFF',
             },
         },
@@ -33,7 +33,7 @@ function Login() {
         localStorage.setItem('logged', 't')
         localStorage.setItem('tid', res.tid)
         localStorage.setItem('lvl', res.lvl)
-        navigate("home")
+        navigate("/home")
       }
     }
 
@@ -48,21 +48,23 @@ function Login() {
         .then(res => res.json())    // Recieve data from server and set response hook
         .then(res => authUser(res))
         .catch(error => console.log('error', error))
-    }
+    };
+
+    const register = () =>{
+        navigate('/registration')
+    };
 
     return (
-        <div>
-
-            <div className='wrapper'>
                 <div className='login'>
 
                     <Container align='center' maxWidth='lg'>
+                        <div><h1>Sign-In!</h1></div>
                         <Box
                             component='span'
                             sx={{
-                                bgcolor: '#FFFFFF',
+                                bgcolor: 'white',
                                 opacity: 0.9,
-                                width: 600,
+                                width: 700,
                                 height: 400,
                                 color: '#DCA563',
                                 borderColor: '#DCA563',
@@ -75,25 +77,18 @@ function Login() {
                                 pb: 7.5,
                             }}
                         >
-                            <h2>Sign-In!</h2>
-                            <TextField id='outlined-basic' label='Username' variant='outlined'
-                                       value={username} onChange={(e) => setUsername(e.target.value)}/>
-                            <TextField id='password' label='Password' variant='outlined' type='password'
-                                       value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
-
-
-
-                            <ThemeProvider theme={theme}>
-                                <Button color="primary" variant="contained" onClick={submit}>
-                                    Login
-                                </Button>
-                            </ThemeProvider>
+                                <TextField id='outlined-basic' label='Username' required
+                                        value={username} onChange={(e) => setUsername(e.target.value)}/>
+                                <TextField id='outlined-basic' label='Password' variant='outlined' required type='password'
+                                        value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
+                                <ThemeProvider theme={theme}>
+                                    <Button color="primary" variant="contained" onClick={submit}>Login</Button>
+                                    <Button color="secondary" variant="contained" onClick={register}>Click here to register</Button>
+                                </ThemeProvider>
+                                
                         </Box>
                     </Container>
                 </div>
-
-            </div>
-        </div>
     );
 }
 
