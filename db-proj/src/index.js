@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './index.css';
 
-import Header from './routes/Header'
+import Header from './routes/Header';
 import Home from './routes/Home';
-import UserInfo from './routes/UserInfo'
+import UserInfo from './routes/UserInfo';
 import Transactions from "./routes/Transactions";
 import History from "./routes/History";
-import Transfer from "./routes/Transfer.js"
+import Transfer from "./routes/Transfer";
 import Login from "./routes/Login";
 import Logout from "./routes/Logout";
 import Wallet from './routes/Wallet';
+import Registration from './routes/Registration';
 
 
 
@@ -23,6 +24,7 @@ export default function App() {
                 <Header />
                     <Routes>
                         <Route path="/" element={<Login />} />
+                        <Route path="/registration" element={<Registration />}/>
                         <Route path="/home" element={<Home />} />
                         <Route path="/userinfo" element={<UserInfo />} />
                         <Route path="/wallet" element={<Wallet />} />
