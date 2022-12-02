@@ -41,8 +41,8 @@ function UserInfo(){
     return (
         <div className='main_div'>
             <h1>Hey {contacts.fname}!</h1>
-            <h3><u>Client ID:</u> {clientID}</h3>
-            <h3><u>ETH Address:</u> {ethAddr}</h3>
+            <h3><u>Client ID:</u> {localStorage.getItem('tid')}</h3>
+            <h3><u>ETH Address:</u> {localStorage.getItem('addr')}</h3>
             <h3><u>Trading Level:</u> {goldLevel ? "Gold" : "Silver"}</h3>
 
 

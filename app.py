@@ -25,16 +25,16 @@ def login():
     username = input['inputusername']
     password = input['inputpassword']
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT t.Client_ID, t.Password, t.Level FROM Trader t WHERE t.Username=%s', (username, ))
+    cursor.execute('SELECT t.Client_ID, t.Password, t.Level, t.ETH_Addr FROM Trader t WHERE t.Username=%s', (username, ))
     query = cursor.fetchone()
 
     cursor.close()
     if query:
-        cid, psw, lv = query
+        cid, psw, lv, addr = query
         print(psw)
         hashed = hashlib.md5(password.encode('utf-8'))
         if psw == hashed.hexdigest():
-            res = {'message': "Success", 'tid': cid, 'lvl': lv}
+            res = {'message': "Success", 'tid': cid, 'lvl': lv, 'addr': addr}
         else:
             res = {'message': "Fail"}
     else:    
@@ -118,6 +118,21 @@ def userinfo():
     cursor.close()
 
     res = {'fname': account[0], 'lname': account[1], 'hnum': account[2], 'cnum': account[3], 'eaddr': account[4]}
+    return json.dumps(res)
+    
+@app.route('/wallet', methods=['POST'])
+def wallet():
+    input = request.get_json()
+    addr = input['addr']
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT w.Fiat_Amount, w.ETH_Amount FROM Wallet w WHERE w.ETH_Addr=%s', (addr, ))
+    wallet = cursor.fetchone()
+    if wallet:
+        res = {'message': "Success", 'fiat': wallet[0], 'eth': wallet[1], 'addr': addr}
+    else:
+        res = {'message': "Fail"}
+    cursor.close()
     return json.dumps(res)
 
 if __name__ == '__main__':
