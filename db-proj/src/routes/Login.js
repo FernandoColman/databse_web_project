@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate();
+    localStorage.clear();   //just in case
     const theme = createTheme({
         palette: {
             primary: {

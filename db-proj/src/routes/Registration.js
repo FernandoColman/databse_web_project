@@ -32,27 +32,44 @@ function Registration() {
 
     const addUser = (res) => {
         if(res.message === "Fail"){
-            alert("Please fill up all the fields!")
+            alert("There was an error! Please try again!")
         }
         else if (res.message === 'Success'){
           navigate("/")
         }
       }
 
+    const isAlphaNumeric = str => /^[a-z0-9]+$/gi.test(str);
+    const isNumeric = str => /^-?\d+$/.test(str);
+
     const register = () => {
-        fetch('/registration', {
-            'method': 'POST',
-            headers: {
-              'Content-Type': 'application/json'    // Send/Recieves JSON information
-            },
-            body:JSON.stringify({inputusername : username, inputpassword : pswrd, 
-                                 ifirstname : firstname,ilastname : lastname,
-                                 ihomephone : homephone, icellphone : cellphone, iemail : email
-                                } )   // Send JSON-ified username
-          })
-          .then(res => res.json())    // Recieve data from server and set response hook
-          .then(res => addUser(res))
-          .catch(error => console.log('error', error))
+        if(!(isAlphaNumeric(firstname) && isAlphaNumeric(lastname))){
+            alert('Please only user alpha numeric characters for your first and last name')
+        }
+        else if(!(isNumeric(homephone) && isNumeric(cellphone))){
+            alert('Please enter your home and cell phone numbers')
+        }
+        else if (!email.includes('@')){
+            alert("Please enter a valid email");
+        }
+        else if(!(isAlphaNumeric(username) && isAlphaNumeric(pswrd))){
+            alert('Please only user alpha numeric characters for your username and password')
+        }
+        else{
+            fetch('/registration', {
+                'method': 'POST',
+                headers: {
+                  'Content-Type': 'application/json'    // Send/Recieves JSON information
+                },
+                body:JSON.stringify({inputusername : username, inputpassword : pswrd, 
+                                     ifirstname : firstname,ilastname : lastname,
+                                     ihomephone : homephone, icellphone : cellphone, iemail : email
+                                    } )   // Send JSON-ified username
+              })
+              .then(res => res.json())    // Recieve data from server and set response hook
+              .then(res => addUser(res))
+              .catch(error => console.log('error', error))
+        }
     }
 
     return (
