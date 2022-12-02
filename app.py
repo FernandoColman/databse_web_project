@@ -3,14 +3,15 @@ import json
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import hashlib
+import os
 
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = "dbd-proj-db.c50nc5cj1awr.us-east-1.rds.amazonaws.com"
-app.config['MYSQL_USER'] = "webuser1"
-app.config['MYSQL_PASSWORD'] = "TPG87J2t7N6q"
-app.config['MYSQL_DB'] = "nft_db"
+app.config['MYSQL_HOST'] = os.getenv("DATABASE_URL")
+app.config['MYSQL_USER'] = os.getenv("DATABASE_USER")
+app.config['MYSQL_PASSWORD'] = os.getenv("DATABASE_PSWRD")
+app.config['MYSQL_DB'] = os.getenv("DATABASE_DBNAME")
 
 mysql = MySQL(app)
 
@@ -25,9 +26,11 @@ def login():
     password = input['inputpassword']
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT t.Client_ID, t.Password, t.Level FROM Trader t WHERE t.Username=%s', (username, ))
-    cid, psw, lv = cursor.fetchone()
+    query = cursor.fetchone()
+
     cursor.close()
-    if cid:
+    if query:
+        cid, psw, lv = query
         print(psw)
         hashed = hashlib.md5(password.encode('utf-8'))
         if psw == hashed.hexdigest():

@@ -31,7 +31,7 @@ function UserInfo(){
 
 
     let goldLevel = false;
-    if(localStorage.getItem("lvl") === 1){
+    if(localStorage.getItem("lvl") !== 1){
         goldLevel = true;
     }
 
