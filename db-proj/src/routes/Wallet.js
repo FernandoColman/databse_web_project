@@ -13,6 +13,7 @@ function Wallet(){
 
     const [addAmt, setAddAmt] = useState(0);
     const [addOpt, setAddOpt] = useState(null);
+    const [addAddr, setAddAddr] = useState('');
 
     const navigate = useNavigate();
 
@@ -31,8 +32,8 @@ function Wallet(){
 
     useEffect(() => {
         if(localStorage.getItem("logged") === null){
-            alert("You are not logged in!")
-            navigate("/")
+            alert("You are not logged in!");
+            navigate("/");
         }
         if(localStorage.getItem("logged")){
             fetch('/wallet', {
@@ -44,21 +45,32 @@ function Wallet(){
               })
               .then(res => res.json())    // Recieve data from server and set response hook
               .then(res => fillWallet(res))
-              .catch(error => console.log('error', error))
+              .catch(error => console.log('error', error));
         }
     }, [reload]);
 
+    const refreshWallet = (res) => {
+        alert(res.message);
+        setReload(!reload);
+    }
+
     const isNumeric = str => /^-?\d+$/.test(str);
+    const isAlphaNumeric = str => /^[a-z0-9]+$/gi.test(str);
     const updateAmt = () =>{
-        if(isNumeric(addAmt) && addOpt !== null){
-            alert(addOpt)
-            // fetch('/walletUpdate', {
-            //     'method': 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'    // Send/Recieves JSON information
-            //     },
-            //     body:JSON.stringify({addr: localStorage.getItem('addr'), type: addOpt, amt: addAmt})
-            // })
+        if(isNumeric(addAmt) && addOpt !== null && isAlphaNumeric(addAddr)){
+            //alert(addOpt)
+            fetch('/walletUpdate', {
+                'method': 'POST',
+                headers: {
+                    'Content-Type': 'application/json'    // Send/Recieves JSON information
+                },
+                body:JSON.stringify({tid: localStorage.getItem('tid'), addr: localStorage.getItem('addr'), type: addOpt, amt: addAmt, addAddr: addAddr})
+            })
+            .then(res => res.json())
+            .then(res => refreshWallet(res))
+        }
+        else{
+            alert("Please select a Transfer type, enter a valid transfer amount, and enter the corresponding address");
         }
     }
 
@@ -74,8 +86,13 @@ function Wallet(){
 
             <div>
                 <Select options={options} onChange={(e) => setAddOpt(e.value)} />
+                <div>Please enter the amount you would like to transfer</div>
                 <TextField id='outlined-basic' value={addAmt} onChange={(e) => setAddAmt(e.target.value)}/>
-                <Button color="primary" variant="contained" onClick={updateAmt}>Add Currency</Button>    
+                <div>Please enter your Ethereum address if you are transfering Ethereum or Bank Accout Number if you are transfering fiat currency</div>
+                <TextField id='outlined-basic' value={addAddr} onChange={(e) => setAddAddr(e.target.value)} />
+                <div>
+                    <Button color="primary" variant="contained" onClick={updateAmt}>Transfer</Button>    
+                </div>
             </div>
         </div>
     )

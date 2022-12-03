@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import hashlib
 import os
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -134,6 +135,64 @@ def wallet():
         res = {'message': "Fail"}
     cursor.close()
     return json.dumps(res)
+
+@app.route('/walletUpdate', methods=['POST'])
+def walletUpdate():
+    input = request.get_json()
+    tid = input['tid']
+    addr = input['addr']
+    opt = input['type']
+    amt = int(input['amt'])
+    addAddr = input['addAddr']
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT MAX(Transaction_ID) FROM Transactions')  #GET LATEST XID
+    xact = cursor.fetchone()
+    xid = xact[0]
+    if xid == None:
+        xid = 0
+    xid += 1
+
+    cursor.execute('SELECT Fiat_Amount, ETH_Amount FROM Wallet WHERE ETH_addr=%s', (addr, ))    #GET CURRENT FIAT AND ETH AMTS
+    fiat_amt, eth_amt = cursor.fetchone()
+
+    insertion = (
+        "INSERT INTO Transactions (Transaction_ID, Client_ID, Time_Date, Transaction_Type) "    #INSERT TRANSFER INTO TRANSACTIONS RELATION
+        "Values (%s, %s, %s, %s)"
+    )
+    data = (xid, tid, datetime.now(), 'transfer')
+    cursor.execute(insertion, data)
+
+    insertion = (
+        "INSERT INTO Logs (Transaction_ID, Active_Cancelled, Client_ID) "    #INSERT TRANSACTION INTO LOGS RELATION
+        "VALUES (%s, %s, %s)"
+    )
+    data = (xid, 0, tid)
+    cursor.execute(insertion, data)
+    
+    insertion = (   
+        "INSERT INTO Transfer (Transaction_ID, Transfer_Amount, Payment_Type, Payment_Addr) "    #INSERT TRANSFER INTO TRANSFER RELTAION
+        "Values (%s, %s, %s, %s)"
+    )
+    data = (xid, amt, opt, addAddr)
+    cursor.execute(insertion, data)
+
+    update = (
+        "UPDATE Wallet "                            #UPDATE WALLET AMOUNT
+        "SET Fiat_Amount=%s, ETH_Amount=%s "
+        "WHERE ETH_Addr=%s "
+    )
+    if opt == "fiat":
+        data = (fiat_amt + amt, eth_amt, addr)
+    else:
+        data = (fiat_amt, eth_amt + amt, addr)
+    cursor.execute(update, data)
+
+    mysql.connection.commit()
+    cursor.close()
+    res = {"message": "Transfer successful!"}
+    return json.dumps(res)
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
