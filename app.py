@@ -9,10 +9,10 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = os.getenv("DATABASE_URL")
-app.config['MYSQL_USER'] = os.getenv("DATABASE_USER")
-app.config['MYSQL_PASSWORD'] = os.getenv("DATABASE_PSWRD")
-app.config['MYSQL_DB'] = os.getenv("DATABASE_DBNAME")
+app.config['MYSQL_HOST'] = "dbd-proj-db.c50nc5cj1awr.us-east-1.rds.amazonaws.com"
+app.config['MYSQL_USER'] = "webuser1"
+app.config['MYSQL_PASSWORD'] = "TPG87J2t7N6q"
+app.config['MYSQL_DB'] = "nft_db"
 
 mysql = MySQL(app)
 

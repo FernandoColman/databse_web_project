@@ -1,20 +1,49 @@
+
 .login {
-    align-items: center;
-    justify-content: center;
+    margin: 15px;
+    padding-right: 20px;
 }
 
-.loggedIn {
-    flex: 5;
-    align-items: center;
-    justify-content: center;
+legend {
+    font-size: xx-large;
+    margin-left: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #176AE8;
 }
 
-.loggedInButtons {
-    flex: 5;
-    padding: 20px 20px;
-    margin: 20px;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-    display: grid;
+fieldset {
+    border: 2px solid #E89517;
+    border-radius: 5px;
+    margin: 25px 100px 75px 15px;
+    width: 500px;
+    font-size: 18px;
+}
+
+label {
+    color: #176AE8;
+}
+
+.subbtn {
+    margin-bottom: 10px;
+    border: 2px solid #E89517;
+    border-radius: 5px;
+    background-color: #176AE8;
+    color: white;
+    font-size: 17px;
+}
+
+
+#user {
+    margin-bottom: 15px;
+}
+
+#user, #pass {
+    height:30px;
+    font-size: 15px;
+}
+
+
+h1 {
+    color: #176AE8;
 }
