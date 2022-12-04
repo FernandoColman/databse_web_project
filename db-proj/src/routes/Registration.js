@@ -93,24 +93,24 @@ function Registration() {
                         pl:7.5,
                     }}
                 >       
-                    <TextField id='outlined-basic' label='Firstname' required
+                    <TextField className='outlined-basic' label='Firstname' required
                                 value={firstname} onChange={(e) => setFirstname(e.target.value)}/>
 
-                    <TextField id='outlined-basic' label='Lastname' required
+                    <TextField className='outlined-basic' label='Lastname' required
                                 value={lastname} onChange={(e) => setLastname(e.target.value)}/>
 
-                    <TextField id='outlined-basic' label='Home Contact' required
+                    <TextField className='outlined-basic' label='Home Contact' required
                                 value={homephone} onChange={(e) => setHomephone(e.target.value)}/>
 
-                    <TextField id='outlined-basic' label='Cellphone' required
+                    <TextField className='outlined-basic' label='Cellphone' required
                                 value={cellphone} onChange={(e) => setCellphone(e.target.value)}/>
 
-                    <TextField id='outlined-basic' label='Email' required
+                    <TextField className='outlined-basic' label='Email' required
                                 value={email} onChange={(e) => setEmail(e.target.value)}/> 
 
-                    <TextField id='outlined-basic' label='Username' required
+                    <TextField className='outlined-basic' label='Username' required
                                 value={username} onChange={(e) => setUsername(e.target.value)}/>
-                    <TextField id='outlined-basic' label='Password' variant='outlined' required type='password'
+                    <TextField className='outlined-basic' label='Password' variant='outlined' required type='password'
                                 value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
                     <ThemeProvider theme={theme}>
                         <Button color="primary" variant="contained" onClick={register}>Click here to register</Button>

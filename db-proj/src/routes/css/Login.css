@@ -9,6 +9,11 @@
     justify-content: center;
 }
 
+.outlined-basic{
+    border: 2px;
+    width: 270px;
+}
+
 .loggedInButtons {
     flex: 5;
     padding: 20px 20px;

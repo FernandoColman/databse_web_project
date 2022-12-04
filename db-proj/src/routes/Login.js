@@ -78,9 +78,9 @@ function Login() {
                                 pb: 7.5,
                             }}
                         >
-                                <TextField id='outlined-basic' label='Username' required
+                                <TextField className='outlined-basic' label='Username' required
                                         value={username} onChange={(e) => setUsername(e.target.value)}/>
-                                <TextField id='outlined-basic' label='Password' variant='outlined' required type='password'
+                                <TextField className='outlined-basic' label='Password' variant='outlined' required type='password'
                                         value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
                                 <ThemeProvider theme={theme}>
                                     <Button color="primary" variant="contained" onClick={submit}>Login</Button>
