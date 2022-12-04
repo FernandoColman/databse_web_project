@@ -34,6 +34,7 @@ function Login() {
         localStorage.setItem('logged', 't')
         localStorage.setItem('tid', res.tid)
         localStorage.setItem('lvl', res.lvl)
+        localStorage.setItem('addr', res.addr)
         navigate("/home")
       }
     }
