@@ -18,6 +18,7 @@ legend {
 
 label {
     padding: 25px 25px 25px 25px;
+    color: #176AE8;
 }
 
 input {
@@ -36,7 +37,7 @@ input {
 
 h1, h3 {
     margin-left: 10px;
-    color: white;
+    color: #176AE8;
 }
 
 h1 {

@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate();
-    localStorage.clear();   //just in case
+    localStorage.clear();
 
     const [username, setUsername] = useState('');
     const [pswrd, setPswrd] = useState('');
@@ -45,15 +45,15 @@ function Login() {
                 <br/>
                 <legend>Sign In:</legend>
                 <label htmlFor="user">Username: </label> <br/>
-                <input type="text" id="user" name="user"/> <br/>
+                <input type="text" id="user" name="user" value={username} onChange={(e) => setUsername(e.target.value)}/> <br/>
 
                 <label htmlFor="pass">Password: </label> <br/>
-                <input type="password" id="pass" name="pass"/> <br/>
+                <input type="password" id="pass" name="pass" value={pswrd} onChange={(e) => setPswrd(e.target.value)}/> <br/>
 
                 <br/>
 
-                <input className="subbtn" type="submit" value="Login"/>
-                <input className="subbtn" type="submit" value="Register"/>
+                <input className="subbtn" type="submit" value="Login" onClick={submit}/>
+                <input className="subbtn" type="submit" value="Register" onClick={register}/>
 
                 <br/>
             </fieldset>
