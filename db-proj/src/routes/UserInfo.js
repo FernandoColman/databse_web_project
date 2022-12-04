@@ -66,7 +66,7 @@ function UserInfo(){
 
 
             <div className='contact_info'>
-                <fieldset>
+                <fieldset className="fields">
                     <br/>
                     <legend>Your Information</legend>
                     <label htmlFor="fname">First Name: </label> <br/>
