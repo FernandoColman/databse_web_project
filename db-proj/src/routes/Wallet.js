@@ -1,11 +1,11 @@
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Select from 'react-select';
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import './css/Wallet.css'
 
-function Wallet(){
+function Wallet() {
 
     const [fiat, setFiat] = useState(0);
     const [eth, setEth] = useState(0);
@@ -18,35 +18,35 @@ function Wallet(){
 
     const navigate = useNavigate();
 
-    const fillWallet = (res) =>{
-        if(res.message !== "Fail"){
+    const fillWallet = (res) => {
+        if (res.message !== "Fail") {
             setFiat(res.fiat);
             setEth(res.eth);
             setAddr(res.addr);
         }
     }
 
-    const options =[
+    const options = [
         {value: 'fiat', label: "Fiat"},
         {value: 'eth', label: "Etherium"}
     ]
 
     useEffect(() => {
-        if(localStorage.getItem("logged") === null){
+        if (localStorage.getItem("logged") === null) {
             alert("You are not logged in!");
             navigate("/");
         }
-        if(localStorage.getItem("logged")){
+        if (localStorage.getItem("logged")) {
             fetch('/wallet', {
                 'method': 'POST',
                 headers: {
-                  'Content-Type': 'application/json'    // Send/Recieves JSON information
+                    'Content-Type': 'application/json'    // Send/Recieves JSON information
                 },
-                body:JSON.stringify({addr: localStorage.getItem('addr')} )   // Send JSON-ified username
-              })
-              .then(res => res.json())    // Recieve data from server and set response hook
-              .then(res => fillWallet(res))
-              .catch(error => console.log('error', error));
+                body: JSON.stringify({addr: localStorage.getItem('addr')})   // Send JSON-ified username
+            })
+                .then(res => res.json())    // Recieve data from server and set response hook
+                .then(res => fillWallet(res))
+                .catch(error => console.log('error', error));
         }
     }, [reload]);
 
@@ -57,20 +57,25 @@ function Wallet(){
 
     const isNumeric = str => /^-?\d+$/.test(str);
     const isAlphaNumeric = str => /^[a-z0-9]+$/gi.test(str);
-    const updateAmt = () =>{
-        if(isNumeric(addAmt) && addOpt !== null && isAlphaNumeric(addAddr)){
+    const updateAmt = () => {
+        if (isNumeric(addAmt) && addOpt !== null && isAlphaNumeric(addAddr)) {
             //alert(addOpt)
             fetch('/walletUpdate', {
                 'method': 'POST',
                 headers: {
                     'Content-Type': 'application/json'    // Send/Recieves JSON information
                 },
-                body:JSON.stringify({tid: localStorage.getItem('tid'), addr: localStorage.getItem('addr'), type: addOpt, amt: addAmt, addAddr: addAddr})
+                body: JSON.stringify({
+                    tid: localStorage.getItem('tid'),
+                    addr: localStorage.getItem('addr'),
+                    type: addOpt,
+                    amt: addAmt,
+                    addAddr: addAddr
+                })
             })
-            .then(res => res.json())
-            .then(res => refreshWallet(res))
-        }
-        else{
+                .then(res => res.json())
+                .then(res => refreshWallet(res))
+        } else {
             alert("Please select a Transfer type, enter a valid transfer amount, and enter the corresponding address");
         }
     }
@@ -80,22 +85,22 @@ function Wallet(){
             <h1>Your Wallet</h1>
             <h3><u>ETH Address:</u> {addr}</h3>
 
-            <div>
-                <h3><u>Fiat Amount:</u> {fiat}</h3>
-                <h3><u>Ethereum Amount:</u> {eth}</h3>
-            </div>
+
+            <h3><u>Fiat Amount:</u> {fiat}</h3>
+            <h3><u>Ethereum Amount:</u> {eth}</h3>
+
 
             <div class="select">
-                <Select class="select" options={options} onChange={(e) => setAddOpt(e.value)} />
+                <Select class="select" options={options} onChange={(e) => setAddOpt(e.value)}/>
                 <br/><br/>
                 <p>Please Enter Amount to Transfer: </p>
                 <TextField id='outlined-basic' value={addAmt} onChange={(e) => setAddAmt(e.target.value)}/>
                 <br/><br/>
-                <p>Please Enter  Ethereum address or Bank Accout Number:</p>
-                <TextField id='outlined-basic' value={addAddr} onChange={(e) => setAddAddr(e.target.value)} />
+                <p>Please Enter Ethereum address or Bank Accout Number:</p>
+                <TextField id='outlined-basic' value={addAddr} onChange={(e) => setAddAddr(e.target.value)}/>
                 <br/><br/>
                 <div>
-                    <Button color="primary" variant="contained" onClick={updateAmt}>Transfer</Button>    
+                    <Button color="primary" variant="contained" onClick={updateAmt}>Transfer</Button>
                 </div>
             </div>
         </div>
