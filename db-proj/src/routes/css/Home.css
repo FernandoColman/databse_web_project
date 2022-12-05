@@ -15,15 +15,15 @@
     border: 1px solid #ffffff;
     text-align: left;
     padding: 8px;
-    font-size: 32px;
+    font-size: 18px;
   }
   
   th {
-    background-color: rgb(117, 201, 250);
+    background-color: rgb(234, 104, 104);
   }
   
   td {
-    background-color: rgb(205, 235, 253);
+    background-color: rgb(245, 154, 154);
   }
   
   form {

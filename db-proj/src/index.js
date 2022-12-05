@@ -11,6 +11,7 @@ import Login from "./routes/Login";
 import Logout from "./routes/Logout";
 import Wallet from './routes/Wallet';
 import Registration from './routes/Registration';
+import Transfer from './routes/Transfer';
 
 
 
@@ -28,6 +29,7 @@ export default function App() {
                         <Route path="/wallet" element={<Wallet />} />
                         <Route path="/history" element={<History />} />
                         <Route path="/logout" element={<Logout />} />
+                        <Route path="/transfer" element={<Transfer />} />
                     </Routes>
 
             </BrowserRouter>

@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Select from 'react-select';
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import './css/Wallet.css'
 
 function Wallet(){
 
@@ -76,7 +77,7 @@ function Wallet(){
 
     return (
         <div className='main_div'>
-            <h1>Wallet</h1>
+            <h1>Your Wallet</h1>
             <h3><u>ETH Address:</u> {addr}</h3>
 
             <div>
@@ -84,12 +85,15 @@ function Wallet(){
                 <h3><u>Ethereum Amount:</u> {eth}</h3>
             </div>
 
-            <div>
-                <Select options={options} onChange={(e) => setAddOpt(e.value)} />
-                <div>Please enter the amount you would like to transfer</div>
+            <div class="select">
+                <Select class="select" options={options} onChange={(e) => setAddOpt(e.value)} />
+                <br/><br/>
+                <p>Please Enter Amount to Transfer: </p>
                 <TextField id='outlined-basic' value={addAmt} onChange={(e) => setAddAmt(e.target.value)}/>
-                <div>Please enter your Ethereum address if you are transfering Ethereum or Bank Accout Number if you are transfering fiat currency</div>
+                <br/><br/>
+                <p>Please Enter  Ethereum address or Bank Accout Number:</p>
                 <TextField id='outlined-basic' value={addAddr} onChange={(e) => setAddAddr(e.target.value)} />
+                <br/><br/>
                 <div>
                     <Button color="primary" variant="contained" onClick={updateAmt}>Transfer</Button>    
                 </div>

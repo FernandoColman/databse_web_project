@@ -12,7 +12,6 @@ function Header(){
                 <Link to="/wallet">Wallet</Link>
                 <Link to="/transactions">Transactions</Link>
                 <Link to="/history">History</Link>
-                <Link to="/transfer">Transfer</Link>
                 <Link to="/logout">Logout</Link>
             </div>
         </div>

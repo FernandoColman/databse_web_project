@@ -9,19 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate();
-    localStorage.clear();   //just in case
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: '#DCA563',
-                contrastText: '#FFFFFF',
-            },
-            secondary: {
-                main: '#E9967A',
-                contrastText: '#FFFFFF',
-            },
-        },
-    });
+    localStorage.clear();
 
     const [username, setUsername] = useState('');
     const [pswrd, setPswrd] = useState('');
@@ -57,40 +45,26 @@ function Login() {
     };
 
     return (
-                <div className='login'>
+        <div>
+            <div className='login'>
+                <fieldset>
+                    <br/>
+                    <legend>Sign In:</legend>
+                    <label htmlFor="user">Username: </label> <br/>
+                    <input type="text" id="user" name="user" value={username} onChange={(e) => setUsername(e.target.value)}/> <br/>
 
-                    <Container align='center' maxWidth='lg'>
-                        <div><h1>Sign-In!</h1></div>
-                        <Box
-                            component='span'
-                            sx={{
-                                bgcolor: 'white',
-                                opacity: 0.9,
-                                width: 700,
-                                height: 400,
-                                color: '#DCA563',
-                                borderColor: '#DCA563',
-                                border: 20,
-                                borderRadius: '44px',
-                                display: 'grid',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                pt: 7.5,
-                                pb: 7.5,
-                            }}
-                        >
-                                <TextField className='outlined-basic' label='Username' required
-                                        value={username} onChange={(e) => setUsername(e.target.value)}/>
-                                <TextField className='outlined-basic' label='Password' variant='outlined' required type='password'
-                                        value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
-                                <ThemeProvider theme={theme}>
-                                    <Button color="primary" variant="contained" onClick={submit}>Login</Button>
-                                    <Button color="secondary" variant="contained" onClick={register}>Click here to register</Button>
-                                </ThemeProvider>
-                                
-                        </Box>
-                    </Container>
-                </div>
+                    <label htmlFor="pass">Password: </label> <br/>
+                    <input type="password" id="pass" name="pass" value={pswrd} onChange={(e) => setPswrd(e.target.value)}/> <br/>
+
+                    <br/>
+
+                    <input className="subbtn" type="submit" value="Login" onClick={submit}/>
+                    <input className="subbtn" type="submit" value="Register" onClick={register}/>
+
+                    <br/>
+                </fieldset>
+            </div>            
+        </div>
     );
 }
 

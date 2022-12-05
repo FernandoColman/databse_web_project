@@ -1,6 +1,11 @@
+div{
+    margin: 2%;
+}
 .login {
+    max-width:700px;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .loggedIn {
@@ -9,17 +14,8 @@
     justify-content: center;
 }
 
-.outlined-basic{
-    border: 2px;
-    width: 270px;
-}
-
-.loggedInButtons {
+.subbtn {
     flex: 5;
-    padding: 20px 20px;
-    margin: 20px;
-    height: 100px;
-    align-items: center;
-    justify-content: center;
-    display: grid;
+    padding: 10px 10px;
+    margin: 10px;
 }
