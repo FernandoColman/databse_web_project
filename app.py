@@ -43,6 +43,36 @@ def login():
     #print(res)
     return json.dumps(res)
 
+@app.route('/userinfo', methods=['POST'])
+def check_level():
+    input = request.get_json()
+    username = input['inputusername']
+    password = input['inputpassword']
+    today = datetime.date.today()   #GET the date
+    time = today.strftime("%Y")+"-"+today.strftime("%m") #no data from last month, use data from this month for testing
+    
+    # first = today.replace(day=1)       
+    # last_month = first - datetime.timedelta(days=1)
+    # time = last_month.strftime("%Y")+'-'+last_month.strftime("%m")+'%' #GET string Year-Month of Last Month
+    
+    cursor = mysql.connection.cursor() #check all the records in Transaction_ID & corresponding total trade values
+    sql_1 =("SELECT Transactions.Client_ID, sum(if (`Transfer`.Payment_Type= 'eth', `Transfer`.Transfer_Amount,0))*1303.85+ sum(if (`Transfer`.Payment_Type= 'fiat', `Transfer`.Transfer_Amount,0))as total_value"
+                "FROM nft_db.Transactions Transactions, nft_db.Transfer Transfer WHERE Time_Date like %s and Transactions.Transaction_ID = Transfer.Transaction_ID"
+                "group by Transactions.Client_ID;",(time,))
+    cursor.execute(sql_1)
+    sql_2 =("select Transactions.Client_ID, Trader.`Level` (case"
+                "when total_value>=100000 then 2"
+                "when total_value<100000 then 1"
+                "end)"
+                "from nft_db.Transactions Transactions, nft_db.Trader Trader")
+    cursor.execute(sql_2)
+    client_traderlevel = cursor.fetchall()
+
+    res = {"message": "No last month records"}
+        
+    return json.dumps(res)
+    
+    
 @app.route('/registration', methods=['POST'])
 def register():
     input = request.get_json()
