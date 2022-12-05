@@ -96,7 +96,7 @@ function Wallet() {
                 <p>Please Enter Amount to Transfer: </p>
                 <TextField id='outlined-basic' value={addAmt} onChange={(e) => setAddAmt(e.target.value)}/>
                 <br/><br/>
-                <p>Please Enter Ethereum address or Bank Accout Number:</p>
+                <p>Please Enter ETH Address or Bank Account Number:</p>
                 <TextField id='outlined-basic' value={addAddr} onChange={(e) => setAddAddr(e.target.value)}/>
                 <br/><br/>
                 <div>

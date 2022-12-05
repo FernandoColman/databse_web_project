@@ -45,7 +45,6 @@ function Login() {
     };
 
     return (
-        <div>
             <div className='login'>
                 <fieldset>
                     <br/>
@@ -63,7 +62,7 @@ function Login() {
                     <br/>
                 </fieldset>
             </div>            
-        </div>
+
     );
 }
 
