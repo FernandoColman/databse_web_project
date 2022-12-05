@@ -53,6 +53,10 @@ def register():
     hnum = input['ihomephone']
     cnum = input['icellphone']
     email = input['iemail']
+    street = input['istreet']
+    city = input['icity']
+    state = input['istate']
+    zip = input['izip']
 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT Username FROM Trader WHERE Username=%s', (username, ))
@@ -77,6 +81,14 @@ def register():
         "VALUES (%s, %s, %s, %s, %s, %s)"
     )
     data = (id + 1, fname, lname, hnum, cnum, email)
+    cursor.execute(insertion, data)
+
+    insertion = (
+        "INSERT INTO Address (Client_ID, Street_Addr, City, State, Zip) "
+        "VALUES (%s, %s, %s, %s, %s)"
+    )
+
+    data = (id + 1, street, city, state, zip)
     cursor.execute(insertion, data)
 
     insertion = (
@@ -114,11 +126,11 @@ def userinfo():
     print(cid)
 
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr FROM Contact c WHERE c.Client_ID=%s', (cid, ))
+    cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr, a.Street_Addr, a.City, a.State, a.Zip FROM Contact c, Address a WHERE c.Client_ID=%s AND c.Client_ID=a.Client_ID' , (cid, ))
     account = cursor.fetchone()
     cursor.close()
 
-    res = {'fname': account[0], 'lname': account[1], 'hnum': account[2], 'cnum': account[3], 'eaddr': account[4]}
+    res = {'fname': account[0], 'lname': account[1], 'hnum': account[2], 'cnum': account[3], 'eaddr': account[4], 'street': account[5], 'city': account[6], 'state': account[7], 'zip': account[8]}
     return json.dumps(res)
     
 @app.route('/wallet', methods=['POST'])

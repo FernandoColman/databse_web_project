@@ -27,6 +27,11 @@ function Registration() {
     const [homephone, setHomephone] = useState('');
     const [cellphone, setCellphone] = useState('');
     const [email, setEmail] = useState('');
+    const [street, setStreet] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [zip, setZip] = useState('');
+
     const [username, setUsername] = useState('');
     const [pswrd, setPswrd] = useState('');
 
@@ -38,7 +43,6 @@ function Registration() {
           navigate("/")
         }
       }
-
     const isAlphaNumeric = str => /^[a-z0-9]+$/gi.test(str);
     const isNumeric = str => /^-?\d+$/.test(str);
 
@@ -63,7 +67,8 @@ function Registration() {
                 },
                 body:JSON.stringify({inputusername : username, inputpassword : pswrd, 
                                      ifirstname : firstname,ilastname : lastname,
-                                     ihomephone : homephone, icellphone : cellphone, iemail : email
+                                     ihomephone : homephone, icellphone : cellphone, iemail : email,
+                                    istreet: street, icity: city, istate: state, izip: zip,
                                     } )   // Send JSON-ified username
               })
               .then(res => res.json())    // Recieve data from server and set response hook
@@ -83,7 +88,7 @@ function Registration() {
                         bgcolor: 'white',
                         opacity: 0.9,
                         width: 700,
-                        height: 700, 
+                        height: 700,
                         color: '#DCA563',
                         borderColor: '#DCA563',
                         border: 20,
@@ -92,30 +97,42 @@ function Registration() {
                         alignItems: 'center',
                         pl:7.5,
                     }}
-                >       
-                    <TextField className='outlined-basic' label='Firstname' required
+                >
+                    <TextField id='outlined-basic' label='Firstname' required
                                 value={firstname} onChange={(e) => setFirstname(e.target.value)}/>
 
                     <TextField className='outlined-basic' label='Lastname' required
                                 value={lastname} onChange={(e) => setLastname(e.target.value)}/>
 
-                    <TextField className='outlined-basic' label='Home Contact' required
+                    <TextField id='outlined-basic' label='Home Phone' required
                                 value={homephone} onChange={(e) => setHomephone(e.target.value)}/>
 
-                    <TextField className='outlined-basic' label='Cellphone' required
+                    <TextField id='outlined-basic' label='Cell Phone' required
                                 value={cellphone} onChange={(e) => setCellphone(e.target.value)}/>
 
-                    <TextField className='outlined-basic' label='Email' required
-                                value={email} onChange={(e) => setEmail(e.target.value)}/> 
+                    <TextField id='outlined-basic' label='Email Address' required
+                                value={email} onChange={(e) => setEmail(e.target.value)}/>
 
-                    <TextField className='outlined-basic' label='Username' required
+                    <TextField id='outlined-basic' label='Street Address' required
+                               value={street} onChange={(e) => setStreet(e.target.value)}/>
+
+                    <TextField id='outlined-basic' label='City' required
+                               value={city} onChange={(e) => setCity(e.target.value)}/>
+
+                    <TextField id='outlined-basic' label='State' required
+                               value={state} onChange={(e) => setState(e.target.value)}/>
+
+                    <TextField id='outlined-basic' label='Zip' required
+                               value={zip} onChange={(e) => setZip(e.target.value)}/>
+
+                    <TextField label='Username' required
                                 value={username} onChange={(e) => setUsername(e.target.value)}/>
                     <TextField className='outlined-basic' label='Password' variant='outlined' required type='password'
                                 value={pswrd} onChange={(e) => setPswrd(e.target.value)}/>
                     <ThemeProvider theme={theme}>
                         <Button color="primary" variant="contained" onClick={register}>Click here to register</Button>
                     </ThemeProvider>
-                        
+
                 </Box>
             </Container>
         </div>
