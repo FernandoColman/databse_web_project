@@ -6,13 +6,12 @@ import './index.css';
 import Header from './routes/Header';
 import Home from './routes/Home';
 import UserInfo from './routes/UserInfo';
-import Transactions from "./routes/Transactions";
 import History from "./routes/History";
-import Transfer from "./routes/Transfer";
 import Login from "./routes/Login";
 import Logout from "./routes/Logout";
 import Wallet from './routes/Wallet';
 import Registration from './routes/Registration';
+import Transfer from './routes/Transfer';
 
 
 
@@ -28,10 +27,9 @@ export default function App() {
                         <Route path="/home" element={<Home />} />
                         <Route path="/userinfo" element={<UserInfo />} />
                         <Route path="/wallet" element={<Wallet />} />
-                        <Route path="/transactions" element={<Transactions />} />
                         <Route path="/history" element={<History />} />
-                        <Route path="/transfer" element={<Transfer />} />
                         <Route path="/logout" element={<Logout />} />
+                        <Route path="/transfer" element={<Transfer />} />
                     </Routes>
 
             </BrowserRouter>

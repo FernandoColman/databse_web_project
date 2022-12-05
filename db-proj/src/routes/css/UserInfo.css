@@ -2,9 +2,12 @@
     border-radius: 5px;
     border: 5px solid #E89517;
     margin: 15px 50px 50px 50px;
-    width: 500px;
+    width: 400px;
 }
-
+.info{
+    display:flex;
+    flex-direction: row;
+}
 
 label, legend {
     color: white;
@@ -30,6 +33,7 @@ input {
 
 h1, h3 {
     margin-left: 10px;
+    margin-bottom: -5px;
     color: #176AE8;
 }
 
