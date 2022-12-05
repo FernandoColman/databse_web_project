@@ -221,6 +221,17 @@ def history():
     res = {"message": "Success", "logs": logs}
     return json.dumps(res)
 
+def transactions():
+    input = request.get_json()
+    tid = input['tid']
+    cursor = mysql.connection.cursor()
+    cursor.execute()
+    
+    
+    
+    cursor.close()
+    res = {"message": "Transfer successful!"}     
+    return json.dumps(res)
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
 

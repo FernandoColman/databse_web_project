@@ -33,8 +33,8 @@ function Home(){
         <div className="container">
             <table>
                 <thead>
-                    <th>  NFT </th>
-                    <th>Volume</th>
+                    <th>NFT Number</th>
+                    <th>NFT_Name</th>
                     <th>Floor_Price</th>
                 </thead>
             </table>
