@@ -158,15 +158,13 @@ def userinfo():
 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr, a.Street_Addr, a.City, a.State, a.Zip FROM Contact c, Address a WHERE c.Client_ID=%s AND c.Client_ID=a.Client_ID' , (cid, ))
-    acc=[col[0] for col in cursor.description]
-    account = [dict(zip(acc, row)) for row in cursor.fetchall()]
+    account=cursor.fetchone()
 
     cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n where n.For_Sale != %s and n.ETH_addr = %s LIMIT 20',(0, addr,))
     column = [col[0] for col in cursor.description]
     columns=[dict(zip(column, row)) for row in cursor.fetchall()]
     cursor.close()
     print("accounts",account)
-    print(columns)
     res = {'res1':account,'res2':columns}
     return json.dumps(res)
 

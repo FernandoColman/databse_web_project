@@ -7,10 +7,6 @@ function UserInfo(){
     const [contacts, setContacts] = useState([]);
     const [reload, setReload] = useState(true);
     const [nfts, setNfts] = useState([]);
-    const [street, setStreet] = useState([]);
-    const [city, setCity] = useState([]);
-    const [state, setState] = useState([]);
-    const [zip, setZip] = useState([]);
 
     const navigate = useNavigate();
 
@@ -29,24 +25,19 @@ function UserInfo(){
                 body:JSON.stringify({cid: localStorage.getItem('tid'),addr:localStorage.getItem('addr')} )   // Send JSON-ified username
             })
             .then(res => res.json())    // Recieve data from server and set response hook
-            .then((res) => {setContacts(res.res1); setNfts(res.res2)})
+            .then(res => {setContacts(res.res1);setNfts(res.res2)})
             .catch(error => console.log('error', error))
         }
     }, [reload]);
 
-
-    // const updateAddress = () => {
-    //     fetch('/userInfoUpdate', {
-    //         'method': 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'    // Send/Recieves JSON information
-    //         },
-    //         body: JSON.stringify({cid: localStorage.getItem('tid')} )   // Send JSON-ified username
-    //     })
-    //         .then(res => res.json())    // Recieve data from server and set response hook
-    //         .then(res => setAddress(res))
-    //         .catch(error => console.log('error', error))
-    // };
+    // let contact=[];
+    // let nft=[];
+    // const updateAddress = (res) => {
+    //     contact=res.res1;
+    //     nft=res.res2;
+    //     setContacts(contact); 
+    //     setNfts(nft);
+    // }
 
     const sellnft = (id) =>{
         console.log(id.currentTarget.id)
@@ -77,7 +68,7 @@ function UserInfo(){
     else if (localStorage.getItem("lvl") === '3')
         levelInfo = "Manager"
 
-
+    //console.log(contacts)
     return (
         <div className='main_div'>
             <h1>Hey {contacts[0]}!</h1>
@@ -121,9 +112,6 @@ function UserInfo(){
 
                     <label htmlFor="zip">Zip Code: </label> <br/>
                     <input type="number" id="zip" name="zip" value={contacts[8]} readOnly/> <br/>
-
-
-
 
                     <br/>
                 </fieldset>

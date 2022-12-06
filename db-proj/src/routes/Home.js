@@ -50,8 +50,6 @@ function Home(){
                 <thead>
                     <th>NFT Number</th>
                     <th>NFT_Name</th>
-                    <th>NFT</th>
-                    <th>Name</th>
                     <th>Floor_Price</th>
                 </thead>            
                 <tbody>
