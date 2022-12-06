@@ -1,10 +1,5 @@
 import {useState} from 'react';
-import {Box} from '@mui/system';
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
-//import './css/Login.css';
+import './css/Login.css';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -48,7 +43,7 @@ function Login() {
             <div className='login'>
                 <fieldset>
                     <br/>
-                    <label htmlFor="user">Username: </label> <br/>
+                    <label htmlFor="pass">Password: </label> <br/>
                     <input type="text" id="user" name="user" value={username} onChange={(e) => setUsername(e.target.value)}/> <br/>
 
                     <label htmlFor="pass">Password: </label> <br/>

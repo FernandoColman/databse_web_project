@@ -20,7 +20,7 @@ function History(){
             fetch('/history', {
                 'method': 'POST',
                 headers: {
-                  'Content-Type': 'application/json'    // Send/Recieves JSON information
+                  'Content-Type': 'application/json'    // Send/Receives JSON information
                 },
                 body:JSON.stringify({tid: localStorage.getItem('tid')} )   // Send JSON-ified username
               })
