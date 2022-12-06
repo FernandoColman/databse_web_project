@@ -26,7 +26,7 @@ function UserInfo(){
                 headers: {
                     'Content-Type': 'application/json'    // Send/Recieves JSON information
                 },
-                body:JSON.stringify({cid: localStorage.getItem('tid')} )   // Send JSON-ified username
+                body:JSON.stringify({cid: localStorage.getItem('tid'),addr:localStorage.getItem('addr')} )   // Send JSON-ified username
             })
             .then(res => res.json())    // Recieve data from server and set response hook
             .then((res) => {setContacts(res.res1); setNfts(res.res2)})

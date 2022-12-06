@@ -30,7 +30,6 @@ function Home(){
             fetch("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD")
             .then((res)=>res.json())
             .then((data)=> {setEthrate(data.USD)})
-            //setEthrate(JSON.stringify(JSON.parse(body),null,4)))
             .catch((err)=>{
                 console.log(err.message);
             })
@@ -39,23 +38,11 @@ function Home(){
 
     const buynft = (buttonid) =>{
         console.log(buttonid.currentTarget.id)
-        fetch('/userbuynft', {
-            'method': 'POST',
-            headers: {
-                'Content-Type': 'application/json'    // Send/Recieves JSON information
-              },
-              body:JSON.stringify({nftid : buttonid.currentTarget.id, cid: localStorage.getItem('tid')} )   // Send JSON-ified username
-            })
-            .then(res => res.json())    // Recieve data from server and set response hook
-            .then(res => addnft(res))
-            .catch(error => console.log('error', error))
+            localStorage.setItem('nfttobuy',buttonid.currentTarget.id)
+            localStorage.setItem('cethrate',eth_rate)
+            navigate("/transfer")
     }
     
-    const addnft = (res) =>{
-        if(res.message === "Success"){
-            navigate("/transfer")
-        }
-    }
 
     return(
         <div className="container">

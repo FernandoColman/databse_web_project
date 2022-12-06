@@ -99,7 +99,7 @@ def home():
     print(cid)
 
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n LIMIT 20')
+    cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n where n.For_Sale = %s LIMIT 20',(0,))
     columns = [col[0] for col in cursor.description]
     res = [dict(zip(columns, row)) for row in cursor.fetchall()]
     cursor.close()
@@ -111,16 +111,130 @@ def home():
 def userinfo():
     input = request.get_json()
     cid = input['cid']
-    print(cid)
+    addr=input['addr']
+    print(addr)
 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr FROM Contact c WHERE c.Client_ID=%s', (cid, ))
     account = cursor.fetchone()
+
+    cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n where n.For_Sale != %s and n.ETH_addr = %s LIMIT 20',(0, addr,))
+    column = [col[0] for col in cursor.description]
+    columns=[dict(zip(column, row)) for row in cursor.fetchall()]
     cursor.close()
 
-    res = {'fname': account[0], 'lname': account[1], 'hnum': account[2], 'cnum': account[3], 'eaddr': account[4]}
+    res = {'res1':account,'res2':columns}
+    return json.dumps(res)
+
+@app.route('/usersellnft', methods=['POST'])
+def sellnft():
+    input = request.get_json()
+    tokenid = input['nftid']
+    cursor = mysql.connection.cursor()
+    cursor.execute('UPDATE NFT n SET n.For_Sale = %s WHERE n.Token_ID = %s', (0,tokenid))
+    mysql.connection.commit()
+    cursor.close()
+    res={'message': "Success"}
     return json.dumps(res)
     
+
+@app.route('/userbuynft', methods=['POST'])
+def buynft():
+    input = request.get_json()
+    tokenid = input['nftid']
+    cursor = mysql.connection.cursor()    
+    cursor.execute('SELECT n.ETH_Price, n.ETH_Addr FROM NFT n where n.Token_ID = %s',(tokenid,))
+    price=cursor.fetchone()
+    cursor.close()
+    print(price)
+    res={'message':"Success",'price':price[0],'eth_addr':price[1]}
+    return json.dumps(res)
+
+@app.route('/nfttrade',methods=['POST'])
+def nfttrade():
+    input=request.get_json()
+    client=input['cid']
+    tokenid = input['nftid']
+    buyer=input['addr']
+    seller=input['seller_addr']
+    trade_amt=input['trade_amt']
+    trade_type=input['trade_type']
+    comm_amt=input['comm_amt']
+    comm_type=input['comm_type']
+    print(client,tokenid,buyer,seller,trade_amt,trade_type,comm_amt,comm_type)
+    cursor=mysql.connection.cursor()
+    cursor.execute('SELECT MAX(Transaction_ID) FROM Transactions')  #GET LATEST XID
+    xact = cursor.fetchone()
+    xid = xact[0]
+    if xid == None:
+        xid = 0
+    xid += 1
+
+    #Adding to transactions
+    insertion = (
+        "INSERT INTO Transactions (Transaction_ID, Client_ID, Time_Date, Transaction_Type) "    #INSERT TRANSFER INTO TRANSACTIONS RELATION
+        "VALUES (%s, %s, %s, %s)"
+    )
+    data = (xid, client, datetime.now(), 'nfttrade')
+    cursor.execute(insertion, data)
+    
+    #Adding to logs
+    insertion = (
+        "INSERT INTO Logs (Transaction_ID, Active_Cancelled, Client_ID) "    #INSERT TRANSACTION INTO LOGS RELATION
+        "VALUES (%s, %s, %s)"
+    )
+    data = (xid, 0, client)
+    cursor.execute(insertion, data)
+
+    #Commission table
+    cursor.execute('SELECT MAX(Commission_ID) FROM Commission')  #GET LATEST XID
+    comm = cursor.fetchone()
+    comm_id = comm[0]
+    if comm_id == None:
+        comm_id = 0
+    comm_id += 1
+
+    #updating trade table
+    cursor.execute('INSERT INTO Trade VALUES (%s,%s,%s,%s,%s,%s,%s)',(xid,trade_amt,trade_type,comm_id,tokenid,seller,buyer))
+
+    cursor.execute('INSERT INTO Commission VALUES (%s,%s,%s)',(comm_id,comm_type,comm_amt))
+
+    
+    
+    #updating buyers wallet
+    if trade_type == "fiat":
+        cursor.execute('SELECT Fiat_Amount from Wallet where ETH_Addr = %s',(buyer,))
+        cur=cursor.fetchone()
+        bw_update=cur[0] - trade_amt
+        cursor.execute('UPDATE Wallet set Fiat_Amount = %s WHERE ETH_Addr = %s',(bw_update,buyer))
+    else:
+        cursor.execute('SELECT ETH_Amount from Wallet where ETH_Addr = %s',(buyer,))
+        cur=cursor.fetchone()
+        bw_update=cur[0] - trade_amt
+        cursor.execute('UPDATE Wallet set ETH_Amount = %s WHERE ETH_Addr = %s',(bw_update,buyer))
+    
+    #updating sellers wallet
+    if trade_type == "fiat":
+        cursor.execute('SELECT Fiat_Amount from Wallet where ETH_Addr = %s',(seller,))
+        cur=cursor.fetchone()
+        sw_update=cur[0] + trade_amt
+        cursor.execute('UPDATE Wallet set Fiat_Amount = %s WHERE ETH_Addr = %s',(sw_update,seller))
+    else:
+        cursor.execute('SELECT ETH_Amount from Wallet where ETH_Addr = %s',(seller,))
+        cur=cursor.fetchone()
+        sw_update=cur[0] + trade_amt
+        cursor.execute('UPDATE Wallet set ETH_Amount = %s WHERE ETH_Addr = %s',(sw_update,seller))
+
+    #updating NFT Table
+    cursor.execute('UPDATE NFT n SET n.ETH_Addr = %s, n.For_Sale = %s WHERE n.Token_Id = %s',(buyer,1,tokenid,))
+
+    mysql.connection.commit()
+    cursor.close()
+    
+    res={'message':"Success"}
+    return json.dumps(res)
+
+
 @app.route('/wallet', methods=['POST'])
 def wallet():
     input = request.get_json()
