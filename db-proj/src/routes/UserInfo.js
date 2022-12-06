@@ -5,7 +5,7 @@ import '../routes/css/UserInfo.css'
 function UserInfo(){
 
     const [contacts, setContacts] = useState([]);
-    const [reload, setReload] = useState(true);
+    //const [reload, setReload] = useState(true);
     const [nfts, setNfts] = useState([]);
 
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ function UserInfo(){
             .then(res => {setContacts(res.res1);setNfts(res.res2)})
             .catch(error => console.log('error', error))
         }
-    }, [reload]);
+    }, []);
 
     // let contact=[];
     // let nft=[];

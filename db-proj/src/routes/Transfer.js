@@ -109,55 +109,60 @@ function Transfer() {
     let total_fiat=0,total_eth=0;
 
     const nftbought = () =>{
-        console.log("amount"+ addAmt1+ " "+ addAmt2)
-        if(addOpt1 === "fiat" && addOpt2 === "fiat"){
-            total_fiat=Number(addAmt1)+Number(addAmt2);
-            console.log("inside fiat fiat "+total_fiat);
+        if(addOpt1==null || addOpt2==null){
+            alert("Please choose the method of payment!");
         }
-        else if(addOpt1 === "eth" && addOpt2 === "eth"){
-            total_eth=Number(addAmt1)+Number(addAmt2);
-            console.log("inside eth fiat");
-        }
-        else if(addOpt1 === "fiat" && addOpt2 === "eth"){
-            total_eth=Number(addAmt2); total_fiat=Number(addAmt1);
-            console.log("inside fiat eth ");
-        }
-        else if(addOpt1 === "eth" && addOpt2 === "fiat"){
-            total_eth=Number(addAmt1); total_fiat=Number(addAmt2);
-            console.log("inside eth fiat ");
-        }
-        if(total_fiat>fiat_bal){
-            enough_balance_fiat=false;
-        }
-        if(total_eth>eth_bal){
-            enough_balance_eth=false;
-        }
-        console.log(enough_balance_eth +" "+enough_balance_fiat);
-        if(enough_balance_eth === false){
-            alert("You dont have enough eth amount");
-            setReload(!reload);
-        }
-        else if(enough_balance_fiat === false){
-            alert("You dont have enough fiat amount");
-            setReload(!reload);
-        }        
-        else if(enough_balance_eth === true && enough_balance_fiat === true){
-            fetch('/nfttrade',{
-                'method': 'POST',
-                headers: {
-                    'Content-Type': 'application/json'    // Send/Recieves JSON information
-                  },
-                  body:JSON.stringify({ cid: localStorage.getItem('tid'),
-                                        addr: localStorage.getItem('addr'),
-                                        seller_addr: localStorage.getItem('seller_addr'),
-                                        trade_amt:addAmt1,trade_type:addOpt1,
-                                        comm_amt:addAmt2, comm_type:addOpt2,
-                                        nftid: localStorage.getItem('nfttobuy')
-                                    } )   // Send JSON-ified username
-              })
-              .then(res => res.json())    // Recieve data from server and set response hook
-              .then(res => addNFTtouser(res))
-              .catch(error => console.log('error', error));
+        else{
+            console.log("amount"+ addAmt1+ " "+ addAmt2)
+            if(addOpt1 === "fiat" && addOpt2 === "fiat"){
+                total_fiat=Number(addAmt1)+Number(addAmt2);
+                console.log("inside fiat fiat "+total_fiat);
+            }
+            else if(addOpt1 === "eth" && addOpt2 === "eth"){
+                total_eth=Number(addAmt1)+Number(addAmt2);
+                console.log("inside eth fiat");
+            }
+            else if(addOpt1 === "fiat" && addOpt2 === "eth"){
+                total_eth=Number(addAmt2); total_fiat=Number(addAmt1);
+                console.log("inside fiat eth ");
+            }
+            else if(addOpt1 === "eth" && addOpt2 === "fiat"){
+                total_eth=Number(addAmt1); total_fiat=Number(addAmt2);
+                console.log("inside eth fiat ");
+            }
+            if(total_fiat>fiat_bal){
+                enough_balance_fiat=false;
+            }
+            if(total_eth>eth_bal){
+                enough_balance_eth=false;
+            }
+            console.log(enough_balance_eth +" "+enough_balance_fiat);
+            if(enough_balance_eth === false){
+                alert("You dont have enough eth amount");
+                setReload(!reload);
+            }
+            else if(enough_balance_fiat === false){
+                alert("You dont have enough fiat amount");
+                setReload(!reload);
+            }        
+            else if(enough_balance_eth === true && enough_balance_fiat === true){
+                fetch('/nfttrade',{
+                    'method': 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'    // Send/Recieves JSON information
+                      },
+                      body:JSON.stringify({ cid: localStorage.getItem('tid'),
+                                            addr: localStorage.getItem('addr'),
+                                            seller_addr: localStorage.getItem('seller_addr'),
+                                            trade_amt:addAmt1,trade_type:addOpt1,
+                                            comm_amt:addAmt2, comm_type:addOpt2,
+                                            nftid: localStorage.getItem('nfttobuy')
+                                        } )   // Send JSON-ified username
+                  })
+                  .then(res => res.json())    // Recieve data from server and set response hook
+                  .then(res => addNFTtouser(res))
+                  .catch(error => console.log('error', error));
+            }
         }
     }
 
