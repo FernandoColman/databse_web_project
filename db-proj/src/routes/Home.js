@@ -43,13 +43,6 @@ function Home(){
             navigate("/transfer")
     }
     
-
-    const addnft = (res) =>{
-        if(res.message === "Success"){
-            navigate("/transfer")
-        }
-    }
-
     return(
         <div className="container">
             <h2>Current ETH Rate in USD: ${eth_rate}</h2>

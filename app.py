@@ -43,7 +43,7 @@ def login():
     #print(res)
     return json.dumps(res)
 
-@app.route('/userinfo', methods=['POST'])
+@app.route('/userinfochecklevel', methods=['POST'])
 def check_level():
     input = request.get_json()
     username = input['inputusername']
@@ -158,13 +158,15 @@ def userinfo():
 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr, a.Street_Addr, a.City, a.State, a.Zip FROM Contact c, Address a WHERE c.Client_ID=%s AND c.Client_ID=a.Client_ID' , (cid, ))
-    account = cursor.fetchone()
+    acc=[col[0] for col in cursor.description]
+    account = [dict(zip(acc, row)) for row in cursor.fetchall()]
 
     cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n where n.For_Sale != %s and n.ETH_addr = %s LIMIT 20',(0, addr,))
     column = [col[0] for col in cursor.description]
     columns=[dict(zip(column, row)) for row in cursor.fetchall()]
     cursor.close()
-
+    print("accounts",account)
+    print(columns)
     res = {'res1':account,'res2':columns}
     return json.dumps(res)
 
@@ -189,7 +191,7 @@ def buynft():
     price=cursor.fetchone()
     cursor.close()
     print(price)
-    res={'message':"Success",'price':price[0],'eth_addr':price[1], 'street': account[5], 'city': account[6], 'state': account[7], 'zip': account[8]}
+    res={'message':"Success",'price':price[0],'eth_addr':price[1]}
     return json.dumps(res)
 
 @app.route('/nfttrade',methods=['POST'])

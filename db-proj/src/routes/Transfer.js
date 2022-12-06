@@ -197,7 +197,7 @@ function Transfer() {
                         <p>Please Enter Amount to Transfer:
                         <p id='outlined-basic'/>{addAmt2}</p>
                         <br/>
-                        <button onClick={nftbought}>Click to update total amount to be paid</button>
+                        <button onClick={nftbought}>Buy nft</button>
                     </div>
                 </div>
         </div>
