@@ -44,11 +44,19 @@ function Home(){
     }
     
 
+    const addnft = (res) =>{
+        if(res.message === "Success"){
+            navigate("/transfer")
+        }
+    }
+
     return(
         <div className="container">
-            <h2>Current Etherium conversion rate in USD : {eth_rate}</h2> 
+            <h2>Current ETH Rate in USD: ${eth_rate}</h2>
             <table>
                 <thead>
+                    <th>NFT Number</th>
+                    <th>NFT_Name</th>
                     <th>NFT</th>
                     <th>Name</th>
                     <th>Floor_Price</th>
@@ -56,10 +64,10 @@ function Home(){
                 <tbody>
                     {nfts.map((NFT_info) =>(
                         <tr>
-                        <td>{NFT_info.Token_ID}</td>
-                        <td>{NFT_info.Name}</td>
-                        <td>{NFT_info.ETH_Price}</td>
-                        <td><button id={NFT_info.Token_ID} onClick={buynft}>Click to buy</button></td>
+                        <td >{NFT_info.Token_ID}</td>
+                        <td >{NFT_info.Name}</td>
+                        <td >{NFT_info.ETH_Price}</td>
+                        <td ><button id={NFT_info.Token_ID} onClick={buynft}>Click to buy</button></td>
                     </tr>
                     ))}    
                 </tbody>

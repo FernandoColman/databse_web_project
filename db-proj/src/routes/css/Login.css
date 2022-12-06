@@ -1,11 +1,15 @@
-div{
-    margin: 2%;
-}
+
 .login {
-    max-width:700px;
+    max-width: 700px;
     align-items: center;
     justify-content: center;
     text-align: center;
+    color: #176AE8;
+    margin: 20px;
+}
+
+legend {
+    color: #176AE8;
 }
 
 .loggedIn {

@@ -43,6 +43,36 @@ def login():
     #print(res)
     return json.dumps(res)
 
+@app.route('/userinfo', methods=['POST'])
+def check_level():
+    input = request.get_json()
+    username = input['inputusername']
+    password = input['inputpassword']
+    today = datetime.date.today()   #GET the date
+    time = today.strftime("%Y")+"-"+today.strftime("%m") #no data from last month, use data from this month for testing
+    
+    # first = today.replace(day=1)       
+    # last_month = first - datetime.timedelta(days=1)
+    # time = last_month.strftime("%Y")+'-'+last_month.strftime("%m")+'%' #GET string Year-Month of Last Month
+    
+    cursor = mysql.connection.cursor() #check all the records in Transaction_ID & corresponding total trade values
+    sql_1 =("SELECT Transactions.Client_ID, sum(if (`Transfer`.Payment_Type= 'eth', `Transfer`.Transfer_Amount,0))*1303.85+ sum(if (`Transfer`.Payment_Type= 'fiat', `Transfer`.Transfer_Amount,0))as total_value"
+                "FROM nft_db.Transactions Transactions, nft_db.Transfer Transfer WHERE Time_Date like %s and Transactions.Transaction_ID = Transfer.Transaction_ID"
+                "group by Transactions.Client_ID;",(time,))
+    cursor.execute(sql_1)
+    sql_2 =("select Transactions.Client_ID, Trader.`Level` (case"
+                "when total_value>=100000 then 2"
+                "when total_value<100000 then 1"
+                "end)"
+                "from nft_db.Transactions Transactions, nft_db.Trader Trader")
+    cursor.execute(sql_2)
+    client_traderlevel = cursor.fetchall()
+
+    res = {"message": "No last month records"}
+        
+    return json.dumps(res)
+    
+    
 @app.route('/registration', methods=['POST'])
 def register():
     input = request.get_json()
@@ -53,6 +83,10 @@ def register():
     hnum = input['ihomephone']
     cnum = input['icellphone']
     email = input['iemail']
+    street = input['istreet']
+    city = input['icity']
+    state = input['istate']
+    zip = input['izip']
 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT Username FROM Trader WHERE Username=%s', (username, ))
@@ -77,6 +111,14 @@ def register():
         "VALUES (%s, %s, %s, %s, %s, %s)"
     )
     data = (id + 1, fname, lname, hnum, cnum, email)
+    cursor.execute(insertion, data)
+
+    insertion = (
+        "INSERT INTO Address (Client_ID, Street_Addr, City, State, Zip) "
+        "VALUES (%s, %s, %s, %s, %s)"
+    )
+
+    data = (id + 1, street, city, state, zip)
     cursor.execute(insertion, data)
 
     insertion = (
@@ -115,7 +157,7 @@ def userinfo():
     print(addr)
 
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr FROM Contact c WHERE c.Client_ID=%s', (cid, ))
+    cursor.execute('SELECT c.First_Name, c.Last_Name, c.Home_Phone, c.Cell_Phone, c.Email_Addr, a.Street_Addr, a.City, a.State, a.Zip FROM Contact c, Address a WHERE c.Client_ID=%s AND c.Client_ID=a.Client_ID' , (cid, ))
     account = cursor.fetchone()
 
     cursor.execute('SELECT n.Token_ID, n.Name, n.ETH_Price FROM NFT n where n.For_Sale != %s and n.ETH_addr = %s LIMIT 20',(0, addr,))
@@ -147,7 +189,7 @@ def buynft():
     price=cursor.fetchone()
     cursor.close()
     print(price)
-    res={'message':"Success",'price':price[0],'eth_addr':price[1]}
+    res={'message':"Success",'price':price[0],'eth_addr':price[1], 'street': account[5], 'city': account[6], 'state': account[7], 'zip': account[8]}
     return json.dumps(res)
 
 @app.route('/nfttrade',methods=['POST'])
@@ -335,6 +377,17 @@ def history():
     res = {"message": "Success", "logs": logs}
     return json.dumps(res)
 
+def transactions():
+    input = request.get_json()
+    tid = input['tid']
+    cursor = mysql.connection.cursor()
+    cursor.execute()
+    
+    
+    
+    cursor.close()
+    res = {"message": "Transfer successful!"}     
+    return json.dumps(res)
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
 

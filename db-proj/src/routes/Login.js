@@ -45,11 +45,9 @@ function Login() {
     };
 
     return (
-        <div>
             <div className='login'>
                 <fieldset>
                     <br/>
-                    <legend>Sign In:</legend>
                     <label htmlFor="user">Username: </label> <br/>
                     <input type="text" id="user" name="user" value={username} onChange={(e) => setUsername(e.target.value)}/> <br/>
 
@@ -64,7 +62,7 @@ function Login() {
                     <br/>
                 </fieldset>
             </div>            
-        </div>
+
     );
 }
 
