@@ -41,9 +41,9 @@ function Login() {
 
     return (
             <div className='login'>
-                <fieldset>
+                <fieldset className="fields">
                     <br/>
-                    <label htmlFor="pass">Password: </label> <br/>
+                    <label htmlFor="user">Username: </label> <br/>
                     <input type="text" id="user" name="user" value={username} onChange={(e) => setUsername(e.target.value)}/> <br/>
 
                     <label htmlFor="pass">Password: </label> <br/>

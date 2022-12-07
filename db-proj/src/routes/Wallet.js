@@ -84,10 +84,9 @@ function Wallet() {
         <div className='main_div'>
             <h1>Your Wallet</h1>
             <h3><u>ETH Address:</u> {addr}</h3>
-
-
             <h3><u>Fiat Amount:</u> {fiat}</h3>
             <h3><u>Ethereum Amount:</u> {eth}</h3>
+            <br/>
 
 
             <div class="select">

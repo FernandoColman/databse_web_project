@@ -74,7 +74,7 @@ function UserInfo(){
             <h1>Hey {contacts[0]}!</h1>
             <h3><u>Client ID:</u> {localStorage.getItem('tid')}</h3>
             <h3><u>ETH Address:</u> {localStorage.getItem('addr')}</h3>
-            <h3><u>Trading Level:</u>{levelInfo}</h3>
+            <h3><u>Trading Level:</u> {levelInfo}</h3>
 
 
             <div className='info'>
