@@ -1,6 +1,6 @@
 # databse_web_project
 ## Final Project for Database Systems Project
-### This program was the final project for UTD CS (course number). This program is an nft trading web app allowing users to trade NFT's.
+### This program was the final project for UTD CS(6360). This program is an nft trading web app allowing users to trade NFT's.
 We have used vscode to run our code.
 1. Open a terminal in vscode.
 2. The dependencies can be installed using pip install < requirements.txt
