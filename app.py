@@ -358,7 +358,7 @@ def history():
     level = cursor.fetchone()
     print(level[0])
 
-    if level[0] == 3:
+    if level[0] == 2:
         print('YAYYYYYY')
         cursor.execute("SELECT l.Transaction_ID, l.Active_Cancelled, t.Time_Date, t.Transaction_Type FROM Logs l, Transactions t WHERE  l.Transaction_ID = t.Transaction_ID AND l.Active_Cancelled=0")
         columns = [col[0] for col in cursor.description]
