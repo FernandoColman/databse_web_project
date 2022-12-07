@@ -7,7 +7,7 @@ function Header(){
     return (
         <div>
             <div className="topnav">
-                <Link to="/home">Purchases</Link>
+                <Link to="/home">Home</Link>
                 <Link to="/wallet">Wallet</Link>
                 <Link to="/userinfo">Profile</Link>
                 <Link to="/history">History</Link>

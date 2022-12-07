@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Select from 'react-select';
 import React, {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom'
+import { height } from "@mui/system";
 
 function Transfer() {
 
@@ -113,14 +114,14 @@ function Transfer() {
             alert("Please choose the method of payment!");
         }
         else{
-            console.log("amount"+ addAmt1+ " "+ addAmt2)
+            console.log("type"+ addOpt1+ " "+ addOpt2)
             if(addOpt1 === "fiat" && addOpt2 === "fiat"){
                 total_fiat=Number(addAmt1)+Number(addAmt2);
                 console.log("inside fiat fiat "+total_fiat);
             }
             else if(addOpt1 === "eth" && addOpt2 === "eth"){
                 total_eth=Number(addAmt1)+Number(addAmt2);
-                console.log("inside eth fiat");
+                console.log("inside eth eth");
             }
             else if(addOpt1 === "fiat" && addOpt2 === "eth"){
                 total_eth=Number(addAmt2); total_fiat=Number(addAmt1);
@@ -130,6 +131,7 @@ function Transfer() {
                 total_eth=Number(addAmt1); total_fiat=Number(addAmt2);
                 console.log("inside eth fiat ");
             }
+            console.log(total_eth+" "+total_fiat)
             if(total_fiat>fiat_bal){
                 enough_balance_fiat=false;
             }
@@ -169,7 +171,7 @@ function Transfer() {
     const addNFTtouser = (res) =>{
         if(res.message === "Success"){
             alert("You have successfully bought the NFT!!");
-            navigate('/wallet');
+            navigate('/userinfo');
         }
         else{
             alert("There was some problem, please try again!");
@@ -194,14 +196,12 @@ function Transfer() {
                     <div className="select">
                         <p>Select trade currency
                         <Select class="select" options={options} onChange={(e)=> {setAddOpt1(e.value); amt_change(e.value)}} /></p>
-                        <p>Please Enter Amount to Transfer: 
+                        <p>Trade amount to Transfer: 
                         <p id='outlined-basic'/>{addAmt1}</p>
-                        <br/>
                         <p>Select commission currency
                             <Select class="select" options={options} onChange={(e)=>{ setAddOpt2(e.value);comm_change(e.value)}} /></p>
-                        <p>Please Enter Amount to Transfer:
+                        <p>Commission amount to Transfer:
                         <p id='outlined-basic'/>{addAmt2}</p>
-                        <br/>
                         <button onClick={nftbought}>Buy nft</button>
                     </div>
                 </div>
