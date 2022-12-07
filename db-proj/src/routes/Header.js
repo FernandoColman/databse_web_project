@@ -8,8 +8,8 @@ function Header(){
         <div>
             <div className="topnav">
                 <Link to="/home">Home</Link>
-                <Link to="/userinfo">Profile</Link>
                 <Link to="/wallet">Wallet</Link>
+                <Link to="/userinfo">Profile</Link>
                 <Link to="/history">History</Link>
                 <Link to="/logout">Logout</Link>
             </div>

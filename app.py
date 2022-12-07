@@ -354,26 +354,53 @@ def history():
     #xid = input['xid']  #if history is > 20 -> specify last xid and get 20 next xacts
 
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT l.Transaction_ID, l.Active_Cancelled, t.Time_Date, t.Transaction_Type FROM Logs l, Transactions t  WHERE l.Client_ID = %s and l.Transaction_ID = t.Transaction_ID AND l.Active_Cancelled=0", (tid, ))
-    columns = [col[0] for col in cursor.description]
-    logs = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    cursor.execute("SELECT Level From Trader WHERE Client_ID = %s", (tid, ))
+    level = cursor.fetchone()
+    print(level[0])
 
-    for log in logs:
-        log['Time_Date'] = log['Time_Date'].strftime("%m/%d/%Y, %H:%M:%S")
-        if log['Transaction_Type'] == 'transfer':
-            cursor.execute("SELECT t.Transfer_Amount, t.Payment_Type, tr.Payment_Addr FROM Transfer t, Transfer tr WHERE t.Transaction_ID=%s AND t.Transaction_ID=tr.Transaction_ID", (log['Transaction_ID'], ))
-            xact_info = cursor.fetchone()
-            log['Description'] = "Transfered {0} {1} from {2}".format(xact_info[0], xact_info[1], xact_info[2])
-        else:
-            cursor.execute("SELECT * From Trade t WHERE Transaction_ID=%s", (log['Transaction_ID'], ))
-            xact_info = cursor.fetchone()
-            cursor.execute("SELECT * From Commission WHERE Commission_ID=%s", (xact_info[3], ))
-            comm_info = cursor.fetchone()
-            log['Description'] = "Purchased NFT {0} from wallet with ETH_Addr {1} for {2} {3}. Commission was {4} {5}.".format(xact_info[4], xact_info[5], xact_info[1], xact_info[2], comm_info[2], comm_info[1])
+    if level[0] == 3:
+        print('YAYYYYYY')
+        cursor.execute("SELECT l.Transaction_ID, l.Active_Cancelled, t.Time_Date, t.Transaction_Type FROM Logs l, Transactions t WHERE  l.Transaction_ID = t.Transaction_ID AND l.Active_Cancelled=0")
+        columns = [col[0] for col in cursor.description]
+        logs = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
-    cursor.close()
-    res = {"message": "Success", "logs": logs}
-    return json.dumps(res)
+        for log in logs:
+            log['Time_Date'] = log['Time_Date'].strftime("%m/%d/%Y, %H:%M:%S")
+            if log['Transaction_Type'] == 'transfer':
+                cursor.execute("SELECT t.Transfer_Amount, t.Payment_Type, tr.Payment_Addr FROM Transfer t, Transfer tr WHERE t.Transaction_ID=%s AND t.Transaction_ID=tr.Transaction_ID", (log['Transaction_ID'], ))
+                xact_info = cursor.fetchone()
+                log['Description'] = "Transferred {0} {1} from {2}".format(xact_info[0], xact_info[1], xact_info[2])
+            else:
+                cursor.execute("SELECT * From Trade t WHERE Transaction_ID=%s", (log['Transaction_ID'], ))
+                xact_info = cursor.fetchone()
+                cursor.execute("SELECT * From Commission WHERE Commission_ID=%s", (xact_info[3], ))
+                comm_info = cursor.fetchone()
+                log['Description'] = "Purchased NFT {0} from wallet with ETH_Addr {1} for {2} {3}. Commission was {4} {5}.".format(xact_info[4], xact_info[5], xact_info[1], xact_info[2], comm_info[2], comm_info[1])
+
+        cursor.close()
+        res = {"message": "Success", "logs": logs}
+        return json.dumps(res)
+    else:
+        cursor.execute("SELECT l.Transaction_ID, l.Active_Cancelled, t.Time_Date, t.Transaction_Type FROM Logs l, Transactions t  WHERE l.Client_ID = %s and l.Transaction_ID = t.Transaction_ID AND l.Active_Cancelled=0", (tid, ))
+        columns = [col[0] for col in cursor.description]
+        logs = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+        for log in logs:
+            log['Time_Date'] = log['Time_Date'].strftime("%m/%d/%Y, %H:%M:%S")
+            if log['Transaction_Type'] == 'transfer':
+                cursor.execute("SELECT t.Transfer_Amount, t.Payment_Type, tr.Payment_Addr FROM Transfer t, Transfer tr WHERE t.Transaction_ID=%s AND t.Transaction_ID=tr.Transaction_ID", (log['Transaction_ID'], ))
+                xact_info = cursor.fetchone()
+                log['Description'] = "Transferred {0} {1} from {2}".format(xact_info[0], xact_info[1], xact_info[2])
+            else:
+                cursor.execute("SELECT * From Trade t WHERE Transaction_ID=%s", (log['Transaction_ID'], ))
+                xact_info = cursor.fetchone()
+                cursor.execute("SELECT * From Commission WHERE Commission_ID=%s", (xact_info[3], ))
+                comm_info = cursor.fetchone()
+                log['Description'] = "Purchased NFT {0} from wallet with ETH_Addr {1} for {2} {3}. Commission was {4} {5}.".format(xact_info[4], xact_info[5], xact_info[1], xact_info[2], comm_info[2], comm_info[1])
+
+        cursor.close()
+        res = {"message": "Success", "logs": logs}
+        return json.dumps(res)
 
 @app.route('/historyUndo', methods=['POST'])
 def historyUndo():
