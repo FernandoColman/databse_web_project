@@ -16,14 +16,21 @@ function UserInfo(){
             alert("You are not logged in!")
             navigate("/")
         }
-        if(localStorage.getItem("logged")){
+        if(localStorage.getItem("logged")){           
             fetch('/userinfo', {
                 'method': 'POST',
                 headers: {
                     'Content-Type': 'application/json'    // Send/Recieves JSON information
                 },
-                body:JSON.stringify({cid: localStorage.getItem('tid'),addr:localStorage.getItem('addr')} )   // Send JSON-ified username
+                body:JSON.stringify({cid:localStorage.getItem('tid'),addr:localStorage.getItem('addr')} )   // Send JSON-ified username
             })
+            fetch('/userinfochecklevel', {
+                'method': 'POST',
+                headers: {
+                    'Content-Type': 'application/json'    // Send/Recieves JSON information
+                },
+                body:JSON.stringify({cid: localStorage.getItem('cid')} )   // Send JSON-ified username
+            })            
             .then(res => res.json())    // Recieve data from server and set response hook
             .then(res => {setContacts(res.res1);setNfts(res.res2)})
             .catch(error => console.log('error', error))
@@ -61,11 +68,11 @@ function UserInfo(){
     }
 
     let levelInfo;
-    if(localStorage.getItem("lvl") === '1')
+    if(localStorage.getItem("lvl") === '0')
         levelInfo = "Silver"
-    else if (localStorage.getItem("lvl") === '2')
+    else if (localStorage.getItem("lvl") === '1')
         levelInfo = "Gold"
-    else if (localStorage.getItem("lvl") === '3')
+    else if (localStorage.getItem("lvl") === '2')
         levelInfo = "Manager"
 
     //console.log(contacts)

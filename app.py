@@ -25,7 +25,7 @@ def login():
     input = request.get_json()
     username = input['inputusername']
     password = input['inputpassword']
-    cursor = mysql.connection.cursor()
+    cursor = mysql.connection.cursor()  
     cursor.execute('SELECT t.Client_ID, t.Password, t.Level, t.ETH_Addr FROM Trader t WHERE t.Username=%s', (username, ))
     query = cursor.fetchone()
 
@@ -46,29 +46,22 @@ def login():
 @app.route('/userinfochecklevel', methods=['POST'])
 def check_level():
     input = request.get_json()
-    username = input['inputusername']
-    password = input['inputpassword']
-    today = datetime.date.today()   #GET the date
-    time = today.strftime("%Y")+"-"+today.strftime("%m") #no data from last month, use data from this month for testing
-    
-    # first = today.replace(day=1)       
-    # last_month = first - datetime.timedelta(days=1)
-    # time = last_month.strftime("%Y")+'-'+last_month.strftime("%m")+'%' #GET string Year-Month of Last Month
-    
-    cursor = mysql.connection.cursor() #check all the records in Transaction_ID & corresponding total trade values
-    sql_1 =("SELECT Transactions.Client_ID, sum(if (`Transfer`.Payment_Type= 'eth', `Transfer`.Transfer_Amount,0))*1303.85+ sum(if (`Transfer`.Payment_Type= 'fiat', `Transfer`.Transfer_Amount,0))as total_value"
-                "FROM nft_db.Transactions Transactions, nft_db.Transfer Transfer WHERE Time_Date like %s and Transactions.Transaction_ID = Transfer.Transaction_ID"
-                "group by Transactions.Client_ID;",(time,))
-    cursor.execute(sql_1)
-    sql_2 =("select Transactions.Client_ID, Trader.`Level` (case"
-                "when total_value>=100000 then 2"
-                "when total_value<100000 then 1"
-                "end)"
-                "from nft_db.Transactions Transactions, nft_db.Trader Trader")
-    cursor.execute(sql_2)
-    client_traderlevel = cursor.fetchall()
-
-    res = {"message": "No last month records"}
+    cid = input['cid']
+    today = datetime.date.today() #Get the date. Used for checking traing amounts.
+    first = today.replace(day=1)       
+    last_month = first - datetime.timedelta(days=1)
+    time = last_month.strftime("%Y")+'-'+last_month.strftime("%m")+'%' #GET string Year-Month of Last Month
+    # check the Total Trade Amount Last Month
+    check_level =("SELECT(sum(if (`Transfer`.Payment_Type= 'eth', `Transfer`.Transfer_Amount,0))*1303.85+ sum(if (`Transfer`.Payment_Type= 'fiat', `Transfer`.Transfer_Amount,0)))>100000 as total_value"
+                "FROM Transactions Transactions, Transfer Transfer, Trader Trader WHERE Time_Date like %s "
+                "and Transactions.Transaction_ID = Transfer.Transaction_ID and Transactions.Transaction_ID=%s and Trader.`Level` !=2 and Trader.Client_ID = Transactions.Client_ID"
+                "group by Transactions.Client_ID;",(time,cid,))
+    cursor = mysql.connection.cursor()
+    cursor.execute(check_level)
+    trader_level = cursor.fetchone()
+    if trader_level:
+        lvl = trader_level
+        res = {'message': "Success", 'lvl': lvl}
         
     return json.dumps(res)
     
